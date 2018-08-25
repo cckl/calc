@@ -1,0 +1,125 @@
+.container {
+  height: 100%;
+  padding: 3em;
+  margin: 0;
+  background-image: linear-gradient(rgb(252, 252, 231), rgb(254, 197, 229))
+}
+
+.calc-body {
+  display: grid;
+  grid-template-columns: [line2] 25% 25% 25% 25%;
+  grid-template-rows: 16%;
+  margin: 2em auto;
+  max-width: 20em;
+  max-height: 50%;
+  border: 1px solid rgb(53, 121, 64);
+  background-color: rgb(53, 121, 64);
+  box-shadow: 5px 7px rgb(25, 62, 22);
+  border-radius: 5%;
+  padding: 1.5em;
+}
+
+.screen {
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 5px;
+  grid-column: 1 / 5;
+  padding: 0 0.5em;
+  text-align: right;
+  margin-bottom: 1em;
+  height: 5em;
+}
+
+.screen p {
+  margin: 0.3em 0;
+  position: inherit;
+  font: 3em Courier;
+  vertical-align: bottom;
+}
+
+
+button {
+  position: relative;
+  height: 6em;
+  border: none;
+  outline: none;
+  padding: 0;
+  border-radius: 50%;
+  margin: 0.5em;
+  box-shadow: 2px 2px rgb(139, 138, 138);
+  font-family: Helvetica 24px;
+  font-size: 12px;
+}
+
+button p {
+  font: 18px Helvetica;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.button-pressed {
+  box-shadow: inset 0px 0px 8px 5px rgb(254, 254, 254);
+}
+
+.grid-row-2 {
+  grid-row: 2 / 3;
+}
+
+.btn-green {
+  background-color: rgb(168, 244, 180);
+}
+
+.btn-green:hover {
+  background-color: rgb(105, 196, 120);
+}
+
+.btn-white:hover {
+  background-color: rgb(238, 236, 236);
+}
+
+/* .button-AC {
+  grid-column: 1 / 2;
+}
+
+.button-del {
+  grid-column: 2 / 3;
+}
+
+.button-divide {
+  grid-column: 3 / 4;
+}
+
+.button-multiple {
+  grid-column: 4 / 5;
+} */
+
+.grid-row-3 {
+  grid-row: 3 / 4;
+}
+
+.grid-row-4 {
+  grid-row: 4 / 5;
+}
+
+.grid-row-5 {
+  grid-row: 5 / 6;
+}
+
+.grid-row-6 {
+  grid-row: 6 / 7;
+}
+
+.grid-col-4 {
+  background-color: rgb(244, 166, 74);
+}
+
+.grid-col-4:hover {
+  background-color: rgb(236, 142, 32);
+}
+
+.button-equals {
+  grid-row: 5 / 7;
+  height: 13em;
+}
