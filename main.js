@@ -1,70 +1,101 @@
-const equals = document.querySelector('.button-equals')
+const equals = document.querySelector('#equals')
 const nums = [...document.querySelectorAll('.num')]
-const operators = [...document.querySelectorAll('.operator')]
+const operators = [...document.querySelectorAll('.op')]
 const display = document.querySelector('.calc-display')
-const calculator = document.querySelector('.calc-body')
-const clear = document.getElementById('clear')
+const clear = document.querySelector('#clear')
+const del = document.querySelector('#del')
+const decimal = document.querySelector('#decimal')
 let x = '';
 let y = '';
 let operator = '';
+let total = '';
 
-// add numbers to display
+// add numbers to display and store value
 nums.forEach(function(num) {
-  num.addEventListener('click', displayNum);
+  num.addEventListener('click', displayValue);
 })
 
-function displayNum(e) {
-  let val = e.target.textContent;
-  if (display.textContent === '0') {
-    display.textContent = val;
+function displayValue(e) {
+  if (display.textContent.toString().length > 9) {
+    return
+    // issue here: after going way over, it doesn't log y and gives NaN
+  }
+  if (y === '' && operator === '' && total === '') {
+    x += e.target.textContent;
+    display.textContent = x;
+    console.log(`x is ${x}`)
+  }
+  else if (x !== '' && total !== '') {
+    y += e.target.textContent;
+    display.textContent = y;
+    console.log(`new y is ${y}`)
   }
   else {
-    display.textContent += val;
+    y += e.target.textContent;
+    display.textContent = y;
+    console.log(`y is ${y}`)
   }
 }
 
-// operators
+// click operator
 operators.forEach(function(operator) {
   operator.addEventListener('click', addOperator)
 })
 
 function addOperator(e) {
-  let val = e.target.textContent;
-  operator = val;
-  console.log(`operator is ${operator}`)
-  if (x == undefined) {
-    x = display.textContent;
-    console.log(`x is ${x}`)
+  if (x === '' && y === '') {
+    return
   }
-  else {
-    y = display.textContent
-    console.log(`y is ${y}`)
+  if (operator === '' && y === '') {
+    operator = e.target.textContent;
   }
-  display.textContent = "";
+  if (operator !== '' && y === '') {
+    return
+  }
+  else if (x != '') {
+    total = display.textContent;
+    calculate(x, operator, y);
+    x = total;
+    operator = e.target.textContent;
+    y = '';
+  }
 }
 
-// calculate
+// equals button
 equals.addEventListener('click', onEquals)
 
 function onEquals() {
-  y = display.textContent;
-  console.log(`y is ${y}`)
-  calculate(x, operator, y)
+  if (x === '' && y === '') {
+    return
+  }
+  if (y !== '' && total !== '') {
+    x = total;
+  }
+  calculate(x, operator, y);
 }
 
+// takes inputs and calculates them
 function calculate(x, operator, y) {
   if (operator === '+') {
-    add(x, y);
+    total = parseFloat(x) + parseFloat(y);
   }
   if (operator === '-') {
-    subtract(x, y);
+    total = x - y;
   }
   if (operator === 'x') {
-    multiply(x, y);
+    total = x * y;
   }
   if (operator === '/') {
-    divide(x, y);
+    total = x / y;
   }
+  if (total.toString().indexOf('.') === -1) {
+    display.textContent = total;
+  }
+  else {
+    display.textContent = total.toFixed(6)
+  }
+  x = total;
+  y = '';
 }
 
 function add(x, y) {
@@ -84,17 +115,45 @@ function divide(x, y) {
   display.textContent = x / y;
 }
 
+// decimal button
+decimal.addEventListener('click', addDecimal)
+
+function addDecimal(e) {
+  if (display.textContent.toString().includes('.')) {
+    return;
+  }
+  if (display.textContent == x) {
+    x += e.target.textContent;
+    display.textContent = x;
+  }
+  if (display.textContent == y) {
+    y += e.target.textContent;
+    display.textContent = y;
+  }
+}
+
+// delete button
+del.addEventListener('click', deleteNum)
+
+function deleteNum() {
+  if (display.textContent == x) {
+    display.textContent = x.toString().slice(0, -1)
+    x = display.textContent;
+  }
+  if (display.textContent == y) {
+    display.textContent = y.toString().slice(0, -1)
+    y = display.textContent;
+  }
+  // can't delete total, understandably
+}
+
 // reset
 clear.addEventListener('click', clearAll)
 
 function clearAll() {
-  x = undefined;
-  y = undefined;
-  operator = undefined;
-  display.innerText = 0;
+  x = '';
+  y = '';
+  operator = '';
+  total = '';
+  display.textContent = '';
 }
-
-// const currentDisplay = display.textContent;
-// const x = calculator.dataset.currentDisplay;
-// const operator = calculator.dataset.operator;
-// const y = calculator.dataset.currentDisplay;
